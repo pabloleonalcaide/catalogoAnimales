@@ -5,8 +5,8 @@ package catalogo;
  *
  */
 public class Murcielago extends Mamifero {
-	int patas = 2;
-	int alas = 2;
+	private int patas = 2;
+	private int alas = 2;
 
 	public Murcielago(String nombre) {
 		super(nombre);

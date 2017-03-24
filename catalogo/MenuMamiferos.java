@@ -49,7 +49,7 @@ public class MenuMamiferos {
 	}
 
 	private static void alimentar() throws ListaVaciaException {
-		if (catalogo.size() == 0) {
+		if (listaVacia()) {
 			throw new ListaVaciaException(
 					"introduce animales antes de alimentar al aire");
 		}
@@ -59,7 +59,9 @@ public class MenuMamiferos {
 		}
 
 	}
-
+	private static boolean listaVacia() {
+		return catalogo.size() == 0;
+	}
 	private static void cuentaMurcielagos() throws ListaVaciaException {
 
 		int cantidad = 0;
@@ -83,7 +85,7 @@ public class MenuMamiferos {
 	 * @throws ListaVaciaException
 	 */
 	private static void listaFocas() throws ListaVaciaException {
-		if (catalogo.size() == 0) {
+		if (listaVacia()) {
 			throw new ListaVaciaException("introduce focas antes");
 		}
 		System.out.println("***lista de focas***");
@@ -100,7 +102,7 @@ public class MenuMamiferos {
 	 * @throws ListaVaciaException
 	 */
 	private static void listaHumanos() throws ListaVaciaException {
-		if (catalogo.size() == 0) {
+		if (listaVacia()) {
 			throw new ListaVaciaException("introduce a alguien primero");
 		}
 		System.out.println("***lista de humanos***");
@@ -120,7 +122,7 @@ public class MenuMamiferos {
 	 * @throws ListaVaciaException
 	 */
 	private static void listaMamiferos() throws ListaVaciaException {
-		if (catalogo.size() == 0) {
+		if (listaVacia()) {
 			throw new ListaVaciaException("introduce animales primero");
 		}
 		System.out.println(catalogo);

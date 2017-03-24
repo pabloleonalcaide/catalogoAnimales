@@ -5,7 +5,7 @@ package catalogo;
  *
  */
 public class Foca extends Mamifero {
-	int patas = 4;
+	private int patas = 4;
 
 	public Foca(String nombre) {
 		super(nombre);

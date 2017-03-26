@@ -1,6 +1,5 @@
 package catalogo;
 
-import java.util.ArrayList;
 import utiles.*;
 
 /**
@@ -9,9 +8,8 @@ import utiles.*;
  * @author Pablo Leon
  * 
  */
-public class MenuMamiferos {
-	static ArrayList<Mamifero> catalogo = new ArrayList<Mamifero>();
-
+public class MenuMamiferos{
+	static ListaMamiferos catalogo = new ListaMamiferos();
 	public static void main(String[] args) {
 		Menu menu = new Menu("**Catalogo de Mamiferos", new String[] {
 				"Anadir Mamifero", "Listar mamiferos", "Listar humanos",
@@ -53,20 +51,22 @@ public class MenuMamiferos {
 			throw new ListaVaciaException(
 					"introduce animales antes de alimentar al aire");
 		}
-		for (Mamifero mamifero : catalogo) {
+		for (Mamifero mamifero : catalogo.catalogo()) {
 			System.out.println(mamifero.getNombre() + " "
 					+ mamifero.alimentar());
 		}
 
 	}
+
 	private static boolean listaVacia() {
 		return catalogo.size() == 0;
 	}
+
 	private static void cuentaMurcielagos() throws ListaVaciaException {
 
 		int cantidad = 0;
 
-		for (Mamifero mamifero : catalogo) {
+		for (Mamifero mamifero : catalogo.catalogo()) {
 			if (mamifero instanceof Murcielago) {
 				cantidad++;
 			}
@@ -84,7 +84,7 @@ public class MenuMamiferos {
 	 * 
 	 * @throws ListaVaciaException
 	 */
-	private static void listaFocas() throws ListaVaciaException {
+	private static void listaFocas() throws ListaVaciaException { //PRECIOSA LISTA
 		if (listaVacia()) {
 			throw new ListaVaciaException("introduce focas antes");
 		}
@@ -107,7 +107,7 @@ public class MenuMamiferos {
 		}
 		System.out.println("***lista de humanos***");
 		int i = 1;
-		for (Mamifero mamifero : catalogo) {
+		for (Mamifero mamifero : catalogo.catalogo()) {
 			if (mamifero instanceof HomoSapiens) {
 				System.out.println((i++) + "- " + mamifero.getNombre()
 						+ " etapa: " + mamifero.getEtapa());
@@ -125,7 +125,7 @@ public class MenuMamiferos {
 		if (listaVacia()) {
 			throw new ListaVaciaException("introduce animales primero");
 		}
-		System.out.println(catalogo);
+		System.out.println(catalogo.catalogo());
 
 	}
 
@@ -136,21 +136,25 @@ public class MenuMamiferos {
 		Menu menu2 = new Menu("**Elige un mamifero de la lista", new String[] {
 				"Homo Sapiens", "Murcielago", "Foca" });
 		do {
-			switch (menu2.gestionar()) {
-			case 1:
-				catalogo.add(new HomoSapiens(Teclado
-						.leerCadena("introduce un nombre")));
-				break;
-			case 2:
-				catalogo.add(new Murcielago(Teclado
-						.leerCadena("introduce un nombre")));
-				break;
-			case 3:
-				catalogo.add(new Foca(Teclado.leerCadena("introduce un nombre")));
-				break;
-			case 4:
-				System.out.println("Lo dejamos para luego");
-				return;
+			try {
+				switch (menu2.gestionar()) {
+				case 1:
+					catalogo.add(new HomoSapiens(Teclado
+							.leerCadena("introduce un nombre")));
+					break;
+				case 2:
+					catalogo.add(new Murcielago(Teclado
+							.leerCadena("introduce un nombre")));
+					break;
+				case 3:
+					catalogo.add(new Foca(Teclado.leerCadena("introduce un nombre")));
+					break;
+				case 4:
+					System.out.println("Lo dejamos para luego");
+					return;
+				}
+			} catch (AnimalExisteException e) {
+				System.out.println(e.getMessage());
 			}
 		} while (menu2.getOpcion() != 4);
 	}

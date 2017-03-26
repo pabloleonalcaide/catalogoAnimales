@@ -150,15 +150,13 @@ public class MenuMamiferos{
 			try {
 				switch (menu2.gestionar()) {
 				case 1:
-					catalogo.add(new HomoSapiens(Teclado
-							.leerCadena("introduce un nombre")));
+					catalogo.add(new HomoSapiens(bautizar()));
 					break;
 				case 2:
-					catalogo.add(new Murcielago(Teclado
-							.leerCadena("introduce un nombre")));
+					catalogo.add(new Murcielago(bautizar()));
 					break;
 				case 3:
-					catalogo.add(new Foca(Teclado.leerCadena("introduce un nombre")));
+					catalogo.add(new Foca(bautizar()));
 					break;
 				case 4:
 					System.out.println("Lo dejamos para luego");
@@ -169,5 +167,14 @@ public class MenuMamiferos{
 			}
 		} while (menu2.getOpcion() != 4);
 	}
-
+		private static String bautizar() {
+			String cadena="";
+			Matcher matcher;
+			Pattern pattern = Pattern.compile("[a-zA-Z]+",Pattern.CASE_INSENSITIVE);
+			do{
+				cadena=Teclado.leerCadena("introduce un nombre");
+				matcher = pattern.matcher(cadena);
+			}while(!matcher.find());
+			return cadena;
+	}
 }

@@ -5,7 +5,7 @@ package catalogo;
  * @author pablo
  * 
  */
-public abstract class Mamifero {
+public abstract class Mamifero implements Comparable<Mamifero>{
 
 	private String nombre;
 	private Etapa etapa;
@@ -126,5 +126,9 @@ public abstract class Mamifero {
 			return false;
 		return true;
 	}
-
+	@Override
+	public int compareTo(Mamifero m){
+		
+		return this.getNombre().toLowerCase().compareTo(m.getNombre().toLowerCase());
+	}
 }

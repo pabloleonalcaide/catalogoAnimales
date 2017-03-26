@@ -1,5 +1,7 @@
 package catalogo;
 
+import java.util.Collections;
+
 import utiles.*;
 
 /**
@@ -14,7 +16,7 @@ public class MenuMamiferos{
 		Menu menu = new Menu("**Catalogo de Mamiferos", new String[] {
 				"Anadir Mamifero", "Listar mamiferos", "Listar humanos",
 				"Listar focas en orden inverso", "Contar murcielagos",
-				"Alimentar a todos los mamiferos del catalogo" });
+				"Alimentar a todos los mamiferos del catalogo","ordenar por nombre" });
 		do {
 			try {
 				switch (menu.gestionar()) {
@@ -37,13 +39,22 @@ public class MenuMamiferos{
 					alimentar();
 					break;
 				case 7:
-					System.out.println("Adios!");
-					return;
+					ordenarAnimales();break;
+					
+				case 8: System.out.println("Adios!");
+				return;
 				}
 			} catch (ListaVaciaException e) {
 				System.out.println(e.getMessage());
 			}
-		} while (menu.getOpcion() != 7);
+		} while (menu.getOpcion() != 8);
+	}
+
+	private static void ordenarAnimales() {
+		catalogo.ordenar();
+		for(Mamifero m:catalogo.catalogo()){
+			System.out.println(m.getNombre());
+		}
 	}
 
 	private static void alimentar() throws ListaVaciaException {

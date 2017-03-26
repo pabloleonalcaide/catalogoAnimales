@@ -1,6 +1,7 @@
 package catalogo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ListaMamiferos {
 
@@ -23,6 +24,10 @@ public class ListaMamiferos {
 	}
 	ArrayList<Mamifero> catalogo (){
 		return catalogo;
+	}
+	public void ordenar() {
+		Collections.sort(catalogo);
+		
 	}
 	
 

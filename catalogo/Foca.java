@@ -7,7 +7,7 @@ package catalogo;
 public class Foca extends Mamifero {
 	private int patas = 4;
 
-	public Foca(String nombre) {
+	public Foca(String nombre) throws NombreInvalidoException {
 		super(nombre);
 
 	}

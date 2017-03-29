@@ -2,10 +2,12 @@ package catalogo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public class ListaMamiferos {
 
-	protected ArrayList<Mamifero> catalogo = new ArrayList<Mamifero>();
+	private ArrayList<Mamifero> catalogo = new ArrayList<Mamifero>();
 
 	public ListaMamiferos() {
 		
@@ -25,10 +27,12 @@ public class ListaMamiferos {
 	ArrayList<Mamifero> catalogo (){
 		return catalogo;
 	}
-	public void ordenar() {
+	void ordenar() {
 		Collections.sort(catalogo);
 		
 	}
-	
+	 boolean isEmpty() {
+		return catalogo.isEmpty();
+	}
 
 }

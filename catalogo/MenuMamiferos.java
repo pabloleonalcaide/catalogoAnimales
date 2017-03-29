@@ -1,6 +1,6 @@
 package catalogo;
 
-import java.util.Collections;
+import java.util.*;
 
 import utiles.*;
 
@@ -10,13 +10,15 @@ import utiles.*;
  * @author Pablo Leon
  * 
  */
-public class MenuMamiferos{
+public class MenuMamiferos {
 	static ListaMamiferos catalogo = new ListaMamiferos();
+
 	public static void main(String[] args) {
 		Menu menu = new Menu("**Catalogo de Mamiferos", new String[] {
 				"Anadir Mamifero", "Listar mamiferos", "Listar humanos",
 				"Listar focas en orden inverso", "Contar murcielagos",
-				"Alimentar a todos los mamiferos del catalogo","ordenar por nombre" });
+				"Alimentar a todos los mamiferos del catalogo",
+				"ordenar por nombre" });
 		do {
 			try {
 				switch (menu.gestionar()) {
@@ -39,10 +41,11 @@ public class MenuMamiferos{
 					alimentar();
 					break;
 				case 7:
-					ordenarAnimales();break;
-					
-				case 8: System.out.println("Adios!");
-				return;
+					ordenarAnimales();
+					break;
+				case 8:
+					System.out.println("Adios!");
+					return;
 				}
 			} catch (ListaVaciaException e) {
 				System.out.println(e.getMessage());
@@ -52,38 +55,30 @@ public class MenuMamiferos{
 
 	private static void ordenarAnimales() {
 		catalogo.ordenar();
-		for(Mamifero m:catalogo.catalogo()){
+		for (Mamifero m : catalogo.catalogo())
 			System.out.println(m.getNombre());
-		}
 	}
 
 	private static void alimentar() throws ListaVaciaException {
-		if (listaVacia()) {
+		if (catalogo.isEmpty())
 			throw new ListaVaciaException(
 					"introduce animales antes de alimentar al aire");
-		}
-		for (Mamifero mamifero : catalogo.catalogo()) {
+
+		for (Mamifero mamifero : catalogo.catalogo())
 			System.out.println(mamifero.getNombre() + " "
 					+ mamifero.alimentar());
-		}
 
-	}
-
-	private static boolean listaVacia() {
-		return catalogo.size() == 0;
 	}
 
 	private static void cuentaMurcielagos() throws ListaVaciaException {
+		if (catalogo.isEmpty())
+			throw new ListaVaciaException("introduce algun murcielago primero");
 
 		int cantidad = 0;
 
 		for (Mamifero mamifero : catalogo.catalogo()) {
-			if (mamifero instanceof Murcielago) {
+			if (mamifero instanceof Murcielago)
 				cantidad++;
-			}
-		}
-		if (cantidad == 0) {
-			throw new ListaVaciaException("introduce algun murcielago primero");
 		}
 		System.out.println("hay " + cantidad + " murcielagos");
 
@@ -95,16 +90,20 @@ public class MenuMamiferos{
 	 * 
 	 * @throws ListaVaciaException
 	 */
-	private static void listaFocas() throws ListaVaciaException { //PRECIOSA LISTA
-		if (listaVacia()) {
+	private static void listaFocas() throws ListaVaciaException {
+		if (catalogo.isEmpty())
 			throw new ListaVaciaException("introduce focas antes");
+		
+		ArrayList<Foca> focas = new ArrayList<Foca>();
+		for (Mamifero m : catalogo.catalogo()) {
+			if (m instanceof Foca)
+				focas.add((Foca) m);
 		}
+		ListIterator<Foca> it = focas.listIterator(focas.size());
 		System.out.println("***lista de focas***");
-		for (int i = catalogo.size() - 1; i >= 0; i--) {
-			if (catalogo.get(i) instanceof Foca)
-				System.out.println((i) + "- " + catalogo.get(i).getNombre()
-						+ " etapa: " + catalogo.get(i).getEtapa());
-		}
+		while (it.hasPrevious())
+			System.out.println(it.previous());
+
 	}
 
 	/**
@@ -113,16 +112,16 @@ public class MenuMamiferos{
 	 * @throws ListaVaciaException
 	 */
 	private static void listaHumanos() throws ListaVaciaException {
-		if (listaVacia()) {
+		if (catalogo.isEmpty()) {
 			throw new ListaVaciaException("introduce a alguien primero");
 		}
 		System.out.println("***lista de humanos***");
-		int i = 1;
 		for (Mamifero mamifero : catalogo.catalogo()) {
-			if (mamifero instanceof HomoSapiens) {
-				System.out.println((i++) + "- " + mamifero.getNombre()
-						+ " etapa: " + mamifero.getEtapa());
-			}
+			if (mamifero instanceof HomoSapiens)
+				System.out.println((catalogo.catalogo().indexOf(mamifero) + 1)
+						+ "- " + mamifero.getNombre() + " etapa: "
+						+ mamifero.getEtapa());
+
 		}
 
 	}
@@ -133,9 +132,8 @@ public class MenuMamiferos{
 	 * @throws ListaVaciaException
 	 */
 	private static void listaMamiferos() throws ListaVaciaException {
-		if (listaVacia()) {
+		if (catalogo.isEmpty())
 			throw new ListaVaciaException("introduce animales primero");
-		}
 		System.out.println(catalogo.catalogo());
 
 	}
@@ -159,22 +157,25 @@ public class MenuMamiferos{
 					catalogo.add(new Foca(bautizar()));
 					break;
 				case 4:
-					System.out.println("Lo dejamos para luego");
+					System.out.println("Hasta luego");
 					return;
 				}
 			} catch (AnimalExisteException e) {
 				System.out.println(e.getMessage());
+			} catch (NombreInvalidoException e) {
+				System.out.println(e.getMessage());
 			}
 		} while (menu2.getOpcion() != 4);
 	}
-		private static String bautizar() {
-			String cadena="";
-			Matcher matcher;
-			Pattern pattern = Pattern.compile("[a-zA-Z]+",Pattern.CASE_INSENSITIVE);
-			do{
-				cadena=Teclado.leerCadena("introduce un nombre");
-				matcher = pattern.matcher(cadena);
-			}while(!matcher.find());
-			return cadena;
+
+	/**
+	 * asigna un nombre al nuevo mamifero
+	 * 
+	 * @return
+	 */
+	private static String bautizar() {
+		String cadena = Teclado.leerCadena("introduce un nombre");
+		return cadena;
 	}
+
 }

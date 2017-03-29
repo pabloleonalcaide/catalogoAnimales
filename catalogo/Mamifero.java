@@ -1,5 +1,8 @@
 package catalogo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 
  * @author pablo
@@ -17,8 +20,9 @@ public abstract class Mamifero implements Comparable<Mamifero>{
 	 * misma razon.
 	 * 
 	 * @param nombre
+	 * @throws NombreInvalidoException 
 	 */
-	Mamifero(String nombre) {
+	Mamifero(String nombre) throws NombreInvalidoException {
 		setNombre(nombre);
 		setEtapa(Etapa.CRIA);
 	}
@@ -27,7 +31,10 @@ public abstract class Mamifero implements Comparable<Mamifero>{
 		return nombre;
 	}
 
-	void setNombre(String nombre) { //PONER SET NOMBRE PRIVATE
+	void setNombre(String nombre) throws NombreInvalidoException {
+		Pattern pattern = Pattern.compile("[a-zA-Z]+",Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(nombre);
+		if(!matcher.find()) throw new NombreInvalidoException("nombre invalido");
 		this.nombre = nombre;
 	}
 

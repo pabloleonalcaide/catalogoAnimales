@@ -10,7 +10,7 @@ public class HomoSapiens extends Mamifero {
 	private int piernas = 2;
 	private int brazos = 2;
 
-	public HomoSapiens(String nombre) {
+	public HomoSapiens(String nombre) throws NombreInvalidoException {
 		super(nombre);
 
 	}
